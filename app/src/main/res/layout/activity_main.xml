@@ -41,7 +41,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="173dp"
         android:background="?attr/colorControlHighlight"
-        android:text="Login" />
+        android:text="Login"
+        tools:clickable="true" />
 
     <Button
         android:id="@+id/btnSignUp"
@@ -51,7 +52,8 @@
 
         android:layout_alignParentStart="true"
         android:background="?attr/colorControlHighlight"
-        android:text="Dont have an account? Sign Up" />
+        android:text="Dont have an account? Sign Up"
+        tools:clickable="true" />
 
     <ImageView
         android:id="@+id/ic_logo"
