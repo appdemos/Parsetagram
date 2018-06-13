@@ -26,17 +26,24 @@ public class FeedActivity extends AppCompatActivity {
 
     public void ibAddOnClick(View view) {
         ibAdd.setImageResource(R.drawable.instagram_new_post_filled_24);
+        ibHome.setImageResource(R.drawable.instagram_home_outline_24);
+        ibProfile.setImageResource(R.drawable.instagram_user_outline_24);
         Intent addPhotoIntent = new Intent(FeedActivity.this, AddPhotoActivity.class);
         startActivity(addPhotoIntent);
 
     }
 
     public void ibHomeOnClick(View view) {
+        ibAdd.setImageResource(R.drawable.instagram_new_post_outline_24);
         ibHome.setImageResource(R.drawable.instagram_home_filled_24);
+        ibProfile.setImageResource(R.drawable.instagram_user_outline_24);
+
     }
 
     public void ibProfileOnClick(View view) {
 
+        ibAdd.setImageResource(R.drawable.instagram_new_post_outline_24);
+        ibHome.setImageResource(R.drawable.instagram_home_outline_24);
         ibProfile.setImageResource(R.drawable.instagram_user_filled_24);
         Intent profileIntent = new Intent(FeedActivity.this, ProfileActivity.class);
         startActivity(profileIntent);
