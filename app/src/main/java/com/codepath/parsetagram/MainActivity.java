@@ -1,5 +1,7 @@
 package com.codepath.parsetagram;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             // Sign up didn't succeed. Look at the ParseException
                             // to figure out what went wrong
-                            Toast.makeText(getApplicationContext(), "register FAIL", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 
                         }
                     }
@@ -106,7 +108,25 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             //Login Fail
                             //get error by calling e.getMessage()
-                            Toast.makeText(getApplicationContext(), "login FAIL", Toast.LENGTH_LONG).show();
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (!isFinishing()){
+                                        new AlertDialog.Builder(MainActivity.this)
+                                                .setTitle("Login failed")
+                                                .setMessage("Please check your username/password!")
+                                                .setCancelable(false)
+                                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                    }
+                                                }).show();
+                                    }
+                                }
+                            });
 
                         }
                     }
