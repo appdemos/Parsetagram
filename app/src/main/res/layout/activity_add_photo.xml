@@ -6,22 +6,5 @@
     android:layout_height="match_parent"
     tools:context=".AddPhotoActivity">
 
-    <ImageView
-        android:id="@+id/ivPreview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
-        app:srcCompat="@drawable/camera_shadow_fill" />
 
-    <Button
-        android:id="@+id/ibClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="248dp"
-        android:onClick="onLaunchCamera"
-        android:text="click new photo" />
 </RelativeLayout>

@@ -1,5 +1,8 @@
 package com.codepath.parsetagram;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,31 +24,58 @@ public class FeedActivity extends AppCompatActivity {
         ibHome = (ImageButton) findViewById(R.id.ibHome);
         ibProfile = (ImageButton) findViewById(R.id.ibProfile);
 
+    }
+
+    public void changeFragment(View view){
+        Fragment fragment;
+
+        if (view == findViewById(R.id.ibHome)) {
+
+            ibAdd.setImageResource(R.drawable.instagram_new_post_outline_24);
+            ibHome.setImageResource(R.drawable.instagram_home_filled_24);
+            ibProfile.setImageResource(R.drawable.instagram_user_outline_24);
+            FeedFragment feedFragment = new FeedFragment();
+            fragment = feedFragment;
+
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.FragmentPlace, fragment);
+
+            ft.commit();
+
+
+        } else if (view == findViewById(R.id.ibAdd)) {
+
+            ibAdd.setImageResource(R.drawable.instagram_new_post_filled_24);
+            ibHome.setImageResource(R.drawable.instagram_home_outline_24);
+            ibProfile.setImageResource(R.drawable.instagram_user_outline_24);
+
+            AddPhotoFragment addPhotoFragment = new AddPhotoFragment();
+            fragment = addPhotoFragment;
+
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.FragmentPlace, fragment);
+
+            ft.commit();
+
+        } else if (view == findViewById(R.id.ibProfile)) {
+
+
+            ibAdd.setImageResource(R.drawable.instagram_new_post_outline_24);
+            ibHome.setImageResource(R.drawable.instagram_home_outline_24);
+            ibProfile.setImageResource(R.drawable.instagram_user_filled_24);
+
+            ProfileFragment profileFragment = new ProfileFragment();
+            fragment = profileFragment;
+
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.FragmentPlace, fragment);
+
+            ft.commit();
+        }
 
     }
 
-    public void ibAddOnClick(View view) {
-        ibAdd.setImageResource(R.drawable.instagram_new_post_filled_24);
-        ibHome.setImageResource(R.drawable.instagram_home_outline_24);
-        ibProfile.setImageResource(R.drawable.instagram_user_outline_24);
-        Intent addPhotoIntent = new Intent(FeedActivity.this, AddPhotoActivity.class);
-        startActivity(addPhotoIntent);
-
-    }
-
-    public void ibHomeOnClick(View view) {
-        ibAdd.setImageResource(R.drawable.instagram_new_post_outline_24);
-        ibHome.setImageResource(R.drawable.instagram_home_filled_24);
-        ibProfile.setImageResource(R.drawable.instagram_user_outline_24);
-
-    }
-
-    public void ibProfileOnClick(View view) {
-
-        ibAdd.setImageResource(R.drawable.instagram_new_post_outline_24);
-        ibHome.setImageResource(R.drawable.instagram_home_outline_24);
-        ibProfile.setImageResource(R.drawable.instagram_user_filled_24);
-        Intent profileIntent = new Intent(FeedActivity.this, ProfileActivity.class);
-        startActivity(profileIntent);
-    }
 }

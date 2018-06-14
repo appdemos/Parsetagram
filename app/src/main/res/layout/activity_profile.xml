@@ -6,23 +6,5 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Do you wish to logout?"
-        android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="236dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="205dp"
-        android:background="@drawable/listgrad"
-        android:text="Logout"
-        android:onClick="logoutUser"
-        android:textColor="@color/colorTextHint" />
 </RelativeLayout>
