@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Intent i = new Intent(MainActivity.this, FeedActivity.class);
                             startActivity(i);
+                            finish();
 
                         } else {
                             // Sign up didn't succeed. Look at the ParseException
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Intent i = new Intent(MainActivity.this, FeedActivity.class);
                             startActivity(i);
+                            finish();
 
                         } else {
                             //Login Fail
