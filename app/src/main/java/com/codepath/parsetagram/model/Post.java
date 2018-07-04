@@ -1,6 +1,7 @@
 package com.codepath.parsetagram.model;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -28,8 +29,11 @@ public class Post extends ParseObject {
         put(KEY_IMAGE, image);
     }
 
-    public ParseUser getUser() {
-        return getParseUser(KEY_USER);
+    public ParseUser getUser() throws ParseException {
+        ParseQuery query = getRelation(KEY_USER).getQuery();
+        ParseUser postCreatorUser = ParseUser.getCurrentUser();
+        query.whereEqualTo("objectId", postCreatorUser.getObjectId());
+        return (ParseUser) query.find().get(0);
     }
 
     public void setUser(ParseUser user){
