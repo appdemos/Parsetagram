@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.parsetagram.model.Post;
+import com.parse.ParseException;
 
 import java.util.List;
 
@@ -39,10 +40,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
         Post post = mPosts.get(position);
-        holder.tvUserName.setText(post.user.name); //????
-        holder.tvDesc.setText(post.description); //????
-
-        Glide.with(context).load(post.user.profileImageUrl).into(holder.ivImage);
+        try {
+            holder.tvUserName.setText(post.getUser().getUsername()); //????
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.tvDesc.setText(post.getDescription()); //????
+//
+//        Glide.with(context).load(post.user.profileImageUrl).into(holder.ivImage);
 
     }
 

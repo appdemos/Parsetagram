@@ -44,9 +44,13 @@ public class FeedActivity extends AppCompatActivity {
                 if (e==null){
                     System.out.println("WOOOHOOOOO");
                     for (int i = 0;i<objects.size(); i++){
-                        Log.d("FeedActivity", "Post ["+i+"] = "
-                                + objects.get(i).getDescription()
-                                + "\n username = " + objects.get(i).getUser().getUsername());
+                        try {
+                            Log.d("FeedActivity", "Post ["+i+"] = "
+                                    + objects.get(i).getDescription()
+                                    + "\n username = " + objects.get(i).getUser().getUsername());
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 } else {
                     e.printStackTrace();

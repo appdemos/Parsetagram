@@ -34,8 +34,9 @@ public class FeedFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
 
         client = new AsyncHttpClient();
-        adapter = new PostAdapter(posts);
         posts = new ArrayList<>();
+
+        adapter = new PostAdapter(posts);
         rvPost = (RecyclerView) rootView.findViewById(R.id.rvPosts);
 
         rvPost.setLayoutManager(new LinearLayoutManager(getContext()));
