@@ -21,7 +21,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private List<Post> mPosts;
     Context context;
-    //pass in the tweets array
+    //pass in the post array
     public PostAdapter(List<Post> posts) {
         mPosts = posts;
     }
@@ -32,22 +32,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View tweetView = inflater.inflate(R.layout.item_post,parent,false);
-        ViewHolder viewHolder = new ViewHolder(tweetView);
+        View postView = inflater.inflate(R.layout.item_post,parent,false);
+        ViewHolder viewHolder = new ViewHolder(postView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         Post post = mPosts.get(position);
-        try {
-            holder.tvUserName.setText(post.getUser().getUsername()); //????
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        holder.tvDesc.setText(post.getDescription()); //????
-//
-//        Glide.with(context).load(post.user.profileImageUrl).into(holder.ivImage);
+
+//        try {
+//            holder.tvUserName.setText(post.getUser().getUsername()); //????
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
+        holder.tvDesc.setText(post.getDescription());
+
+//        Glide.with(context)
+//                .load(post.getImage())
+//                .into(holder.ivImage);
 
     }
 

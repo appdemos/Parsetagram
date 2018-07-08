@@ -32,31 +32,8 @@ public class FeedActivity extends AppCompatActivity {
         ibHome = (ImageButton) findViewById(R.id.ibHome);
         ibProfile = (ImageButton) findViewById(R.id.ibProfile);
 
-        final Post.Query postsQuery = new Post.Query();
-        postsQuery
-                .getTop()
-                .withUser();
+        ibHome.setImageResource(R.drawable.instagram_home_filled_24);
 
-
-        postsQuery.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> objects, ParseException e) {
-                if (e==null){
-                    System.out.println("WOOOHOOOOO");
-                    for (int i = 0;i<objects.size(); i++){
-                        try {
-                            Log.d("FeedActivity", "Post ["+i+"] = "
-                                    + objects.get(i).getDescription()
-                                    + "\n username = " + objects.get(i).getUser().getUsername());
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
 
 }
 
@@ -68,6 +45,7 @@ public class FeedActivity extends AppCompatActivity {
             ibAdd.setImageResource(R.drawable.instagram_new_post_outline_24);
             ibHome.setImageResource(R.drawable.instagram_home_filled_24);
             ibProfile.setImageResource(R.drawable.instagram_user_outline_24);
+
             FeedFragment feedFragment = new FeedFragment();
             fragment = feedFragment;
 

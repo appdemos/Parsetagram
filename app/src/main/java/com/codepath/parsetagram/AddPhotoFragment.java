@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.codepath.parsetagram.model.Post;
 import com.parse.Parse;
@@ -46,7 +47,8 @@ public class AddPhotoFragment extends Fragment {
     ImageView imageView;
     EditText description;
     Button postBtn;
-    String currentPhotoPath;
+    String currentPhotoPath = "/storage/emulated/0/DCIM/Camera/IMG_20180614_110011.jpg";
+    ParseFile parseFile;
 
     ///
     public final String APP_TAG = "MyCustomApp";
@@ -79,12 +81,11 @@ public class AddPhotoFragment extends Fragment {
                     }
 
                     // Return the file target for the photo based on filename
-                    File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
+//                    File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
+
+                    File file = new File(currentPhotoPath);
 
                     photoFile = file;
-
-                    ParseFile parseFile = new ParseFile(photoFile);
-
                 //
                 startActivityForResult(intent,
                         CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
@@ -97,9 +98,9 @@ public class AddPhotoFragment extends Fragment {
             public void onClick(View v) {
                 final String desc = description.getText().toString();
                 final ParseUser currUser = ParseUser.getCurrentUser();
-                final File image = photoFile;
+                final File file = photoFile;
 
-                final ParseFile parseFile = new ParseFile(image);
+                parseFile = new ParseFile(file);
                 System.out.println("OKAY WANNA POST HUH?");
 
                 postPhoto(desc, parseFile, currUser);
@@ -134,22 +135,26 @@ public class AddPhotoFragment extends Fragment {
     }
 
 
-    public void postPhoto(final String description, final ParseFile imageFile, ParseUser user){
-        final Post newPost = new Post();
-//        final ParseObject newPost = new ParseObject("Posts");
-        newPost.setDescription(description);
-        newPost.setImage(imageFile);
-        newPost.setUser(user);
+    public void postPhoto(final String description, final ParseFile imageFile, final ParseUser user){
 
-        newPost.saveInBackground(new SaveCallback() {
+
+        imageFile.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null){
-                    Log.d("AddPhotoFragment", "Post created woooooohoooo");
+                    final Post newPost = new Post();
+                    newPost.setDescription(description);
+                    newPost.setImage(imageFile);
+                    newPost.setUser(user);
+
+
+                    Toast.makeText(getContext(),"Post created woooooohoooo",Toast.LENGTH_LONG).show();
                     Log.d("AddPhotoFragment", description);
                 } else {
                     e.printStackTrace();
-                    Log.d("AddPhotoFragment", "NOOOOT HAPPENING :/");
+                    Toast.makeText(getContext(),"Post not posted :(",Toast.LENGTH_LONG).show();
+                    String s = "NOOOOT HAPPENING :/ " + e.getMessage() + " ... ";
+                    Log.d("AddPhotoFragment",s);
 
                 }
             }

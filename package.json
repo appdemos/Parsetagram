@@ -1,0 +1,24 @@
+{
+  "name": "parsetagram",
+  "version": "1.0.0",
+  "description": "**Parsetagram** is a photo sharing app using Parse as its backend.",
+  "main": "index.js",
+  "dependencies": {
+    "npm": "^6.1.0",
+    "parse-dashboard": "^1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhriti04/Parsetagram.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dhriti04/Parsetagram/issues"
+  },
+  "homepage": "https://github.com/dhriti04/Parsetagram#readme"
+}

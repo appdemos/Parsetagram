@@ -5,6 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorPrimaryText">#ffffff</color>
     <color name="colorTextHint">#beffffff</color>
-    <color name="backgroundLight">#faebef</color>
+    <color name="backgroundLight">#e0cffa</color>
+    <color name="backgroundDark">#f7cada</color>
+    <color name="backgroundMid">#f7e2ce</color>
+
 
 </resources>

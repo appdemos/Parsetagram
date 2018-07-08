@@ -10,13 +10,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.parsetagram.model.Post;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class FeedFragment extends Fragment {
@@ -42,6 +46,9 @@ public class FeedFragment extends Fragment {
         rvPost.setLayoutManager(new LinearLayoutManager(getContext()));
         rvPost.setAdapter(adapter);
 
+        loadTopPosts();
+
+
         getConfiguration();
 
         return rootView;
@@ -51,5 +58,43 @@ public class FeedFragment extends Fragment {
 
     public void getConfiguration() {
 
+    }
+
+    public void loadTopPosts(){
+        final Post.Query postsQuery = new Post.Query();
+        postsQuery
+                .getTop()
+                .withUser();
+
+
+        postsQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> objects, ParseException e) {
+                if (e==null){
+                    Post post = new Post();
+                    System.out.println("WOOOHOOOOO");
+                    for (int i = 0;i<objects.size(); i++){
+                        Log.d("FeedActivity", "Post ["+i+"] = "
+                                + objects.get(i).getDescription()
+//                                    + "\n username = " + objects.get(i).getUser().getUsername());
+                                + " o k ");
+
+                        post.setDescription(objects.get(i).getDescription());
+                        post.setImage(objects.get(i).getImage());
+//                        try {
+//                            post.setUser(objects.get(i).getUser());
+//                        } catch (ParseException e1) {
+//                            e1.printStackTrace();
+//                        }
+
+                        posts.add(post);
+                        adapter.notifyItemInserted(posts.size()-1);
+
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

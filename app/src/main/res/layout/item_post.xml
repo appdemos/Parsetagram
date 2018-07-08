@@ -31,9 +31,8 @@
         android:id="@+id/tvDescription"
         android:layout_width="248dp"
         android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/ivImage"
-        android:layout_marginBottom="220dp"
-        android:text="The caption to the image will come here .. . .. .. .. .. . "
+        android:layout_below="@+id/tvUser"
+        android:layout_centerHorizontal="true"
+        android:text="The caption to the image will come here below the username"
         android:textColor="@color/colorPrimaryDark" />
 </RelativeLayout>
