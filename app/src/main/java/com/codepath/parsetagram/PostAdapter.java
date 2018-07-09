@@ -49,9 +49,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         holder.tvDesc.setText(post.getDescription());
 
-//        Glide.with(context)
-//                .load(post.getImage())
-//                .into(holder.ivImage);
+        Glide.with(context)
+                .load(post.getImage())
+                .into(holder.ivImage);
 
     }
 

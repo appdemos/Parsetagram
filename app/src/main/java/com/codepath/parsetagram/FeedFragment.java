@@ -79,15 +79,7 @@ public class FeedFragment extends Fragment {
 //                                    + "\n username = " + objects.get(i).getUser().getUsername());
                                 + " o k ");
 
-                        post.setDescription(objects.get(i).getDescription());
-                        post.setImage(objects.get(i).getImage());
-//                        try {
-//                            post.setUser(objects.get(i).getUser());
-//                        } catch (ParseException e1) {
-//                            e1.printStackTrace();
-//                        }
-
-                        posts.add(post);
+                        posts.add(objects.get(i));
                         adapter.notifyItemInserted(posts.size()-1);
 
                     }

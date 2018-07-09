@@ -14,7 +14,7 @@
         android:id="@+id/FragmentPlace"
         android:name="com.codepath.parsetagram.FeedFragment"
         android:layout_width="match_parent"
-        android:layout_height="487dp"
+        android:layout_height="557dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
