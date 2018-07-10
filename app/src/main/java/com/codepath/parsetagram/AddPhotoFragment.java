@@ -41,13 +41,14 @@ import java.util.Date;
 public class AddPhotoFragment extends Fragment {
 
     public final static int PICK_PHOTO_CODE = 1046;
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1;
 
     Button button;
     ImageView imageView;
     EditText description;
     Button postBtn;
     String currentPhotoPath = "/storage/emulated/0/DCIM/Camera/IMG_20180614_110011.jpg";
+    String currentPath;
     ParseFile parseFile;
 
     ///
@@ -71,21 +72,26 @@ public class AddPhotoFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                Activity activity = AddPhotoFragment.this.getActivity();
+
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //
-                File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
 
-                    // Create the storage directory if it does not exist
-                    if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-                        Log.d(APP_TAG, "failed to create directory");
-                    }
+                File mediaStorage = null;
+                try {
+                    mediaStorage = getTempImageFile(getContext());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Create the storage directory if it does not exist
+                if (!mediaStorage.exists() && !mediaStorage.mkdirs()){
+                    Log.d(APP_TAG, "failed to create directory");
+                }
 
-                    // Return the file target for the photo based on filename
-//                    File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
+                String path = mediaStorage.getAbsolutePath();
+                Uri uri = FileProvider.getUriForFile(activity, "com.codepath.parsetagram", mediaStorage);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 
-                    File file = new File(currentPhotoPath);
-
-                    photoFile = file;
+                photoFile = new File(path);
                 //
                 startActivityForResult(intent,
                         CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
@@ -110,6 +116,13 @@ public class AddPhotoFragment extends Fragment {
         return rootView;
 
     }
+    private static File getTempImageFile(Context context) throws IOException {
+        String currTime = getCurrentTimestamp();
+        String fileNamePrefix = "JPEG_" + currTime + "_";
+        String fileNameSuffix = ".jpg";
+        File directory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return File.createTempFile(fileNamePrefix, fileNameSuffix, directory);
+    }
 
 
     @Override
@@ -117,20 +130,8 @@ public class AddPhotoFragment extends Fragment {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
-                Bitmap bmp = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                // convert byte array to Bitmap
-
-                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,
-                        byteArray.length);
-// ******       trial lets see
-//                Bitmap selectedImage = getResizedBitmap(bitmap, 40);// 400 is for example, replace with desired size
-
-
+                currentPath = photoFile.getPath();
+                Bitmap bitmap = BitmapFactory.decodeFile(currentPath);
                 imageView.setImageBitmap(bitmap);
 
             }
@@ -141,6 +142,7 @@ public class AddPhotoFragment extends Fragment {
     public void postPhoto(final String description, final ParseFile imageFile, final ParseUser user){
 
 
+
         imageFile.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -149,8 +151,9 @@ public class AddPhotoFragment extends Fragment {
                     newPost.setDescription(description);
                     newPost.setImage(imageFile);
                     newPost.setUser(user);
+                    newPost.saveInBackground();
 
-
+                    System.out.println("woooohooooo posted?");
                     Toast.makeText(getContext(),"Post created woooooohoooo",Toast.LENGTH_LONG).show();
                     Log.d("AddPhotoFragment", description);
                 } else {
@@ -177,5 +180,9 @@ public class AddPhotoFragment extends Fragment {
             width = (int) (height * bitmapRatio);
         }
         return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    public static String getCurrentTimestamp() {
+        return new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     }
 }

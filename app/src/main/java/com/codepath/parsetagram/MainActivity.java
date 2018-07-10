@@ -70,10 +70,6 @@ public class MainActivity extends AppCompatActivity {
                             // Hooray! Let them use the app now.
                             Toast.makeText(getApplicationContext(), "registerd YAY", Toast.LENGTH_LONG).show();
 
-//                            Intent i = new Intent(MainActivity.this, FeedActivity.class);
-//                            startActivity(i);
-//                            finish();
-
                         } else {
                             // Sign up didn't succeed. Look at the ParseException
                             // to figure out what went wrong

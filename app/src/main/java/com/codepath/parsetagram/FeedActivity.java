@@ -34,6 +34,15 @@ public class FeedActivity extends AppCompatActivity {
 
         ibHome.setImageResource(R.drawable.instagram_home_filled_24);
 
+        FeedFragment feedFragment = new FeedFragment();
+        Fragment fragment = feedFragment;
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.FragmentPlace, fragment);
+
+        ft.commit();
+
 
 }
 
