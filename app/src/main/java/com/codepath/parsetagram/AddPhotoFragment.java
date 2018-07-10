@@ -24,6 +24,7 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.codepath.parsetagram.model.Post;
+import com.loopj.android.http.AsyncHttpClient;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -35,6 +36,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -45,15 +47,18 @@ public class AddPhotoFragment extends Fragment {
 
     Button button;
     ImageView imageView;
-    EditText description;
+    EditText etDescription;
     Button postBtn;
     String currentPhotoPath = "/storage/emulated/0/DCIM/Camera/IMG_20180614_110011.jpg";
     String currentPath;
     ParseFile parseFile;
+    ArrayList<Post> posts;
+    PostAdapter adapter;
+    AsyncHttpClient client;
+
 
     ///
     public final String APP_TAG = "MyCustomApp";
-    public String photoFileName = "photo.jpg";
     File photoFile;
 
     @Override
@@ -65,8 +70,13 @@ public class AddPhotoFragment extends Fragment {
 
         button = (Button) rootView.findViewById(R.id.btnClick);
         imageView = (ImageView) rootView.findViewById(R.id.ivPreview);
-        description = (EditText) rootView.findViewById(R.id.etDescription);
+        etDescription = (EditText) rootView.findViewById(R.id.etDescription);
         postBtn = (Button) rootView.findViewById(R.id.btnPost);
+
+        client = new AsyncHttpClient();
+        posts = new ArrayList<>();
+
+        adapter = new PostAdapter(posts);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +112,7 @@ public class AddPhotoFragment extends Fragment {
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String desc = description.getText().toString();
+                final String desc = etDescription.getText().toString();
                 final ParseUser currUser = ParseUser.getCurrentUser();
                 final File file = photoFile;
 
@@ -141,8 +151,6 @@ public class AddPhotoFragment extends Fragment {
 
     public void postPhoto(final String description, final ParseFile imageFile, final ParseUser user){
 
-
-
         imageFile.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -152,10 +160,16 @@ public class AddPhotoFragment extends Fragment {
                     newPost.setImage(imageFile);
                     newPost.setUser(user);
                     newPost.saveInBackground();
+                    posts.add(newPost);
+
+                    adapter.notifyItemInserted(posts.size()-1);
 
                     System.out.println("woooohooooo posted?");
                     Toast.makeText(getContext(),"Post created woooooohoooo",Toast.LENGTH_LONG).show();
                     Log.d("AddPhotoFragment", description);
+                    etDescription.setText("");
+                    imageView.setImageResource(R.drawable.tick_40143_1280);
+
                 } else {
                     e.printStackTrace();
                     Toast.makeText(getContext(),"Post not posted :(",Toast.LENGTH_LONG).show();
@@ -167,20 +181,6 @@ public class AddPhotoFragment extends Fragment {
         });
     }
 
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float)width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }
 
     public static String getCurrentTimestamp() {
         return new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());

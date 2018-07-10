@@ -26,7 +26,7 @@ import java.util.List;
 public class FeedFragment extends Fragment {
 
     ArrayList<Post> posts;
-    RecyclerView rvPost;
+    public RecyclerView rvPost;
     PostAdapter adapter;
     AsyncHttpClient client;
 
@@ -74,12 +74,16 @@ public class FeedFragment extends Fragment {
                     Post post = new Post();
                     System.out.println("WOOOHOOOOO");
                     for (int i = 0;i<objects.size(); i++){
-                        Log.d("FeedActivity", "Post ["+i+"] = "
-                                + objects.get(i).getDescription()
-//                                    + "\n username = " + objects.get(i).getUser().getUsername());
-                                + " o k ");
+                        try {
+                            Log.d("FeedActivity", "Post ["+i+"] = "
+                                    + objects.get(i).getDescription()
+                                        + "\n username = " + objects.get(i).getUser().fetchIfNeeded().getUsername()
+                                    + " o k ");
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
 
-                        posts.add(objects.get(i));
+                        posts.add(0,objects.get(i));
                         adapter.notifyItemInserted(posts.size()-1);
 
                     }

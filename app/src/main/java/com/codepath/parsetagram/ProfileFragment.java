@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.parse.ParseUser;
 
@@ -17,6 +18,7 @@ import com.parse.ParseUser;
 public class ProfileFragment extends Fragment {
 
     Button logoutBtn;
+    TextView tvUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,6 +27,10 @@ public class ProfileFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         logoutBtn = rootView.findViewById(R.id.btnLogout);
+        tvUser = rootView.findViewById(R.id.mYuserName);
+        String currentUser = ParseUser.getCurrentUser().getUsername(); // this will now be null
+        System.out.println("The current user is "+ currentUser);
+        tvUser.setText("Hey "+ currentUser + ", \n do you wish to logout?");
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -29,15 +29,16 @@ public class Post extends ParseObject {
         put(KEY_IMAGE, image);
     }
 
-    public ParseUser getUser() throws ParseException {
+    public ParseUser getUser() {
+        return getParseUser(KEY_USER);
+    }
+
+//    public ParseUser getPostUser() throws ParseException {
 //        ParseQuery query = getRelation(KEY_USER).getQuery();
 //        ParseUser postCreatorUser = ParseUser.getCurrentUser();
 //        query.whereEqualTo("objectId", postCreatorUser.getObjectId());
 //        return (ParseUser) query.find().get(0);
-        return getParseUser(KEY_USER);
-    }
-
-
+//    }
 
 
     public void setUser(ParseUser user){

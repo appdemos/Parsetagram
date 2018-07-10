@@ -22,6 +22,7 @@ public class FeedActivity extends AppCompatActivity {
     ImageButton ibHome;
     ImageButton ibProfile;
     ImageButton ibAdd;
+    public FeedFragment feedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class FeedActivity extends AppCompatActivity {
 
         ibHome.setImageResource(R.drawable.instagram_home_filled_24);
 
-        FeedFragment feedFragment = new FeedFragment();
+        feedFragment = new FeedFragment();
         Fragment fragment = feedFragment;
 
         FragmentManager fm = getSupportFragmentManager();
