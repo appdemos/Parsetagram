@@ -33,14 +33,6 @@ public class Post extends ParseObject {
         return getParseUser(KEY_USER);
     }
 
-//    public ParseUser getPostUser() throws ParseException {
-//        ParseQuery query = getRelation(KEY_USER).getQuery();
-//        ParseUser postCreatorUser = ParseUser.getCurrentUser();
-//        query.whereEqualTo("objectId", postCreatorUser.getObjectId());
-//        return (ParseUser) query.find().get(0);
-//    }
-
-
     public void setUser(ParseUser user){
         put(KEY_USER, user);
     }

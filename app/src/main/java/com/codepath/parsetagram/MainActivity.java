@@ -30,107 +30,120 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        etUsername = (EditText) findViewById(R.id.et_username);
-        etPassword = (EditText) findViewById(R.id.et_password);
-        btnlogin = (Button) findViewById(R.id.btnLogin);
-        btnsignUp = (Button) findViewById(R.id.btnSignUp);
 
-        // Use for troubleshooting -- remove this line for production
-        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            // do stuff with the user
+            Toast.makeText(getApplicationContext(), "Welcome back " + currentUser.getUsername() + "!", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(MainActivity.this, FeedActivity.class);
+            startActivity(i);
+            finish();
 
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        builder.networkInterceptors().add(httpLoggingInterceptor);
+        }
+            // show the signup or login screen
 
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("parsetagram") // should correspond to APP_ID env variable
-                .clientKey(null)  // set explicitly unless clientKey is explicitly configured on Parse server
-                .clientBuilder(builder)
-                .server("http://parsetagramm.herokuapp.com/parse").build());
+            setContentView(R.layout.activity_main);
+            etUsername = (EditText) findViewById(R.id.et_username);
+            etPassword = (EditText) findViewById(R.id.et_password);
+            btnlogin = (Button) findViewById(R.id.btnLogin);
+            btnsignUp = (Button) findViewById(R.id.btnSignUp);
 
-        btnsignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create the ParseUser
-                ParseUser user = new ParseUser();
-                System.out.println("SIGN UP?????");
+            // Use for troubleshooting -- remove this line for production
+            Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 
-                // Set core properties
-                user.setUsername(etUsername.getText().toString());
-                user.setPassword(etPassword.getText().toString());
-                // Set custom properties
-                // Invoke signUpInBackground
-                user.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(com.parse.ParseException e) {
-                        if (e == null) {
-                            // Hooray! Let them use the app now.
-                            Toast.makeText(getApplicationContext(), "registerd YAY", Toast.LENGTH_LONG).show();
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.networkInterceptors().add(httpLoggingInterceptor);
 
-                        } else {
-                            // Sign up didn't succeed. Look at the ParseException
-                            // to figure out what went wrong
-                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            Parse.initialize(new Parse.Configuration.Builder(this)
+                    .applicationId("parsetagram") // should correspond to APP_ID env variable
+                    .clientKey(null)  // set explicitly unless clientKey is explicitly configured on Parse server
+                    .clientBuilder(builder)
+                    .server("http://parsetagramm.herokuapp.com/parse").build());
 
+            btnsignUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Create the ParseUser
+                    ParseUser user = new ParseUser();
+                    System.out.println("SIGN UP?????");
+
+                    // Set core properties
+                    user.setUsername(etUsername.getText().toString());
+                    user.setPassword(etPassword.getText().toString());
+                    // Set custom properties
+                    // Invoke signUpInBackground
+                    user.signUpInBackground(new SignUpCallback() {
+                        @Override
+                        public void done(com.parse.ParseException e) {
+                            if (e == null) {
+                                // Hooray! Let them use the app now.
+                                Toast.makeText(getApplicationContext(), "You're registerd! Please click 'LOGIN'", Toast.LENGTH_LONG).show();
+
+                            } else {
+                                // Sign up didn't succeed. Look at the ParseException
+                                // to figure out what went wrong
+                                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+
+                            }
                         }
-                    }
-                });
-            }
-        });
-
-        btnlogin.setOnClickListener(new View.OnClickListener() {
+                    });
+                }
+            });
 
 
-            @Override
-            public void onClick(View v) {
+            btnlogin.setOnClickListener(new View.OnClickListener() {
 
-                System.out.println("LOG IN ????????");
 
-                ParseUser.logInInBackground(etUsername.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
-                    @Override
-                    public void done(ParseUser parseUser, ParseException e) {
-                        if (parseUser != null) {
-                            //Login Successful
-                            //you can display sth or do sth
-                            //For example Welcome + ParseUser.getUsername()
+                @Override
+                public void onClick(View v) {
 
-                            Toast.makeText(getApplicationContext(), "login YAY", Toast.LENGTH_LONG).show();
+                    System.out.println("LOG IN ????????");
 
-                            Intent i = new Intent(MainActivity.this, FeedActivity.class);
-                            startActivity(i);
-                            finish();
+                    ParseUser.logInInBackground(etUsername.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
+                        @Override
+                        public void done(ParseUser parseUser, ParseException e) {
+                            if (parseUser != null) {
+                                //Login Successful
+                                //you can display sth or do sth
+                                //For example Welcome + ParseUser.getUsername()
 
-                        } else {
-                            //Login Fail
-                            //get error by calling e.getMessage()
+                                Toast.makeText(getApplicationContext(), "login YAY", Toast.LENGTH_LONG).show();
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                                Intent i = new Intent(MainActivity.this, FeedActivity.class);
+                                startActivity(i);
+                                finish();
 
-                                    if (!isFinishing()){
-                                        new AlertDialog.Builder(MainActivity.this)
-                                                .setTitle("Login failed")
-                                                .setMessage("Please check your username/password!")
-                                                .setCancelable(false)
-                                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
+                            } else {
+                                //Login Fail
+                                //get error by calling e.getMessage()
 
-                                                    }
-                                                }).show();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        if (!isFinishing()) {
+                                            new AlertDialog.Builder(MainActivity.this)
+                                                    .setTitle("Login failed")
+                                                    .setMessage("Please check your username/password!")
+                                                    .setCancelable(false)
+                                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+
+                                                        }
+                                                    }).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
 
+                            }
                         }
-                    }
-                });
-            }
-        });
-    }
+                    });
+                }
+            });
+        }
 
 }

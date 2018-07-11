@@ -105,7 +105,6 @@ public class AddPhotoFragment extends Fragment {
                 //
                 startActivityForResult(intent,
                         CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-
             }
         });
 

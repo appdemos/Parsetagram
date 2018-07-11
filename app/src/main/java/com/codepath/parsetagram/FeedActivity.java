@@ -23,6 +23,8 @@ public class FeedActivity extends AppCompatActivity {
     ImageButton ibProfile;
     ImageButton ibAdd;
     public FeedFragment feedFragment;
+    public AddPhotoFragment addPhotoFragment;
+    public ProfileFragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,9 @@ public class FeedActivity extends AppCompatActivity {
         ibHome.setImageResource(R.drawable.instagram_home_filled_24);
 
         feedFragment = new FeedFragment();
+        addPhotoFragment = new AddPhotoFragment();
+        profileFragment = new ProfileFragment();
+
         Fragment fragment = feedFragment;
 
         FragmentManager fm = getSupportFragmentManager();
@@ -56,7 +61,6 @@ public class FeedActivity extends AppCompatActivity {
             ibHome.setImageResource(R.drawable.instagram_home_filled_24);
             ibProfile.setImageResource(R.drawable.instagram_user_outline_24);
 
-            FeedFragment feedFragment = new FeedFragment();
             fragment = feedFragment;
 
             FragmentManager fm = getSupportFragmentManager();
@@ -72,7 +76,6 @@ public class FeedActivity extends AppCompatActivity {
             ibHome.setImageResource(R.drawable.instagram_home_outline_24);
             ibProfile.setImageResource(R.drawable.instagram_user_outline_24);
 
-            AddPhotoFragment addPhotoFragment = new AddPhotoFragment();
             fragment = addPhotoFragment;
 
             FragmentManager fm = getSupportFragmentManager();
@@ -88,7 +91,7 @@ public class FeedActivity extends AppCompatActivity {
             ibHome.setImageResource(R.drawable.instagram_home_outline_24);
             ibProfile.setImageResource(R.drawable.instagram_user_filled_24);
 
-            ProfileFragment profileFragment = new ProfileFragment();
+
             fragment = profileFragment;
 
             FragmentManager fm = getSupportFragmentManager();
